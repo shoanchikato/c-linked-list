@@ -6,7 +6,7 @@
 int main() {
   int one[] = {1, 2, 3, 4, 5, 6, 7};
 
-  struct Node *head = linked_list_init_node(&one[0]);
+  Node *head = linked_list_init_node(&one[0]);
   linked_list_insert(head, &one[1]);
   linked_list_insert(head, &one[2]);
   linked_list_insert(head, &one[3]);

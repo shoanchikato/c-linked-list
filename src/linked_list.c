@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node *linked_list_init_node(void *data) {
-  struct Node *node = (struct Node *)malloc(sizeof(struct Node));
+Node *linked_list_init_node(void *data) {
+  Node *node = (Node *)malloc(sizeof(Node));
   if (node == NULL) {
     fprintf(stderr, "error allocating memory for a node\n");
     return NULL;
@@ -17,43 +17,43 @@ struct Node *linked_list_init_node(void *data) {
   return node;
 }
 
-void linked_list_insert(struct Node *head, void *data) {
+void linked_list_insert(Node *head, void *data) {
   if (head == NULL) {
     return;
   }
   
   if (head->next == NULL) {
-    struct Node *new_node = linked_list_init_node(data);
+    Node *new_node = linked_list_init_node(data);
     head->next = new_node;
     return;
   }
 
-  struct Node *prev_head = head->next;
+  Node *prev_head = head->next;
   linked_list_insert(prev_head, data);
 }
 
-void free_linked_list(struct Node *list) {
+void free_linked_list(Node *list) {
   if (list == NULL) {
     return;
   }
 
-  struct Node *new_head = list->next;
+  Node *new_head = list->next;
   free(list);
   free_linked_list(new_head);
 }
 
-int linked_list_remove_at(struct Node **head, size_t index) {
+int linked_list_remove_at(Node **head, size_t index) {
   if (head == NULL || *head == NULL) {
     fprintf(stderr, "linked list is NULL\n");
     return 1;
   }
 
-  struct Node *current_node = *head;
-  struct Node *prev_node = NULL;
+  Node *current_node = *head;
+  Node *prev_node = NULL;
   int idx = 0;
 
   if (index == 0) {
-    struct Node *next_node = current_node->next;
+    Node *next_node = current_node->next;
     *head = next_node;
 
     free(current_node);
@@ -77,18 +77,18 @@ int linked_list_remove_at(struct Node **head, size_t index) {
   return 1;
 }
 
-int linked_list_pop_back(struct Node **head) {
+int linked_list_pop_back(Node **head) {
   if (head == NULL || *head == NULL) {
     fprintf(stderr, "linked list is NULL\n");
     return 1;
   }
 
-  struct Node *fixed_head = *head;
-  struct Node *current_node = *head;
-  struct Node *prev_node = NULL;
+  Node *fixed_head = *head;
+  Node *current_node = *head;
+  Node *prev_node = NULL;
 
   if (fixed_head->next == NULL) {
-    struct Node *next_node = current_node->next;
+    Node *next_node = current_node->next;
     *head = next_node;
 
     free(current_node);
@@ -111,24 +111,24 @@ int linked_list_pop_back(struct Node **head) {
   return 1;
 }
 
-int linked_list_pop_front(struct Node **head) { return linked_list_remove_at(head, 0); }
+int linked_list_pop_front(Node **head) { return linked_list_remove_at(head, 0); }
 
-void linked_list_push_back(struct Node *head, void *data) {
+void linked_list_push_back(Node *head, void *data) {
   return linked_list_insert(head, data);
 }
 
-int linked_list_insert_at(struct Node **head, size_t index, void *data) {
+int linked_list_insert_at(Node **head, size_t index, void *data) {
   if (head == NULL || *head == NULL) {
     fprintf(stderr, "linked list is NULL\n");
     return 1;
   }
 
-  struct Node *current_node = *head;
-  struct Node *prev_node = NULL;
+  Node *current_node = *head;
+  Node *prev_node = NULL;
   int idx = 0;
 
   if (index == 0) {
-    struct Node *new_node = linked_list_init_node(data);
+    Node *new_node = linked_list_init_node(data);
     new_node->next = current_node;
     *head = new_node;
     return 0;
@@ -137,7 +137,7 @@ int linked_list_insert_at(struct Node **head, size_t index, void *data) {
   while (current_node != NULL) {
 
     if (idx == index) {
-      struct Node *new_node = linked_list_init_node(data);
+      Node *new_node = linked_list_init_node(data);
       new_node->next = current_node;
       prev_node->next = new_node;
       return 0;
@@ -152,6 +152,6 @@ int linked_list_insert_at(struct Node **head, size_t index, void *data) {
   return 1;
 }
 
-void linked_list_push_front(struct Node **head, void *data) {
+void linked_list_push_front(Node **head, void *data) {
   linked_list_insert_at(head, 0, data);
 }
