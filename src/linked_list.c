@@ -37,8 +37,6 @@ void free_linked_list(struct Node *list) {
     return;
   }
 
-  printf("free %d\n", *(int *)list->data);
-
   struct Node *new_head = list->next;
   free(list);
   free_linked_list(new_head);
